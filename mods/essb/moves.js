@@ -884,31 +884,45 @@ exports.BattleMovedex = {
 		isZ: "thekidz",
 	},
 	//Stellation
-	"joust": {
-		id: "joust",
-		name: "Joust",
-		accuracy: 95,
-		basePower: 90,
-		category: "physical",
-		pp: 5,
+	"disruptionbeacon": {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		id: "disruptionbeacon",
+		name: "Disruption Beacon",
+		pp: 10,
 		priority: 0,
-		flags: {protect: 1, mirror: 1, contact: 1},
-		onBasePowerPriority: 8,
-		onBasePower: function (basePower, pokemon, target) {
-			if (this.willMove(target)) {
-				return this.chainModify(2);
+		flags: {reflectable: 1, nonsky: 1},
+		sideCondition: 'disruptionbeacon',
+		effect: {
+			// this is a side condition
+			onStart: function () {
+				this.add('-message', 'The Disruption Beacon will mess up grounded Pokemon on the field!');
+			},
+			onSwitchIn: function (pokemon) {
+				if (!pokemon.isGrounded()) return;
+				else {
+					onTryHit: function (pokemon) {
+			let bannedAbilities = {comatose:1, multitype:1, stancechange:1, truant:1, rkssystem:1};
+			if (bannedAbilities[pokemon.ability]) {
+				return false;
 			}
 		},
-		onPrepareHit: function (target, source) {
-			this.attrLastMove('[still]');
-			this.add('-anim', source, "Giga Impact", target);
+		onHit: function (pokemon) {
+			let oldAbility = pokemon.setAbility('truant');
+			if (oldAbility) {
+				this.add('-ability', pokemon, 'Truant''');
+				return;
+			}
+			return false;
 		},
+				},
+			},
 		secondary: false,
-		target: "normal",
-		type: "Steel",
-		zMovePower: 120,
-		contestType: "Tough",
+		target: "foeSide",
+		type: "Psychic",
 	},
+
 
 	//HoeenHero
 	"scripting": {
