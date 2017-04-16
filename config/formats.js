@@ -1450,16 +1450,12 @@ exports.Formats = [
 			}
 			if (name === 'thegodofpie') {
 				this.add('c| TheGodOfPie|ur mom');
-
 			}
 		},
-		
 		onHit: function (pokemon, target) {
 			if (pokemon.hp <= 0 || pokemon.fainted) {
 			//When a staffmon knocks out an enemy
-			let name = toId(target.name);
-			let sentences = [];
-			let sentence = '';	
+				let name = toId(target.name);
 				if (name === 'thegodofpie') {
 					this.add('c| TheGodOfPie|lmao dora fights better than you');
 				}
